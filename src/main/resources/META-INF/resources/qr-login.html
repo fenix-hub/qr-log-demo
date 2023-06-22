@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Login Example</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    #loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #qr-code {
+      display: block;
+    }
+
+    #connected-message {
+      display: none;
+      font-weight: normal;
+      margin-top: 20px;
+      color: green;
+    }
+
+    #connected-message span {
+      font-weight: bold;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+  <script>
+    window.addEventListener('load', function() {
+      const loader = document.getElementById('loader');
+      const qrImage = document.getElementById('qr-code');
+      const connectedMessage = document.getElementById('connected-message');
+
+      loader.style.display = 'block';
+
+      // Fetch QR code image and WebSocket URL from the server
+      fetch('http://localhost:8080/qr3')
+              .then(response => response.json())
+              .then(data => {
+                const qrCodeImage = data.qr; // Assuming the JSON response has a "qr" field containing the Base64 QR code image
+                const webSocketUrl = data.channel; // Assuming the JSON response has a "channel" field containing the WebSocket URL
+
+                // Set the Base64 string as the source of the image element
+                qrImage.src = `data:image/png;base64, ${qrCodeImage}`;
+
+                // Hide the loader and display the QR code image
+                loader.style.display = 'none';
+                qrImage.style.display = 'block';
+
+                // Connect to WebSocket using the extracted URL
+                const socket = new WebSocket(webSocketUrl);
+
+                // WebSocket event handlers
+                socket.addEventListener('open', function(event) {
+                  console.log('WebSocket connection established.');
+                });
+
+                socket.addEventListener('message', function(event) {
+                  console.log('WebSocket message received:', event.data);
+                  const message = JSON.parse(event.data);
+                  if (message.status === 'connected') {
+                    const username = message.username;
+                    qrImage.style.display = 'none';
+                    connectedMessage.innerHTML = `Successfully connected as <span>${username}</span>`;
+                    connectedMessage.style.display = 'block';
+                  }
+                });
+
+                socket.addEventListener('close', function(event) {
+                  console.log('WebSocket connection closed.');
+                });
+              })
+              .catch(error => {
+                console.error('Error fetching QR code:', error);
+                // Hide the loader and display an error message
+                loader.style.display = 'none';
+                qrImage.style.display = 'none';
+                document.getElementById('error-message').style.display = 'block';
+              });
+    });
+  </script>
+</head>
+<body>
+<div id="container">
+  <h1>QR Login Example</h1>
+  <div id="loader"></div>
+  <img id="qr-code" alt="QR Code">
+  <p id="connected-message"></p>
+  <p id="error-message" style="display: none; color: red;">Error fetching QR code.</p>
+</div>
+</body>
+</html>
