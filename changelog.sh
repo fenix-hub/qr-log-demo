@@ -3,11 +3,6 @@
 # Define the output file for the changelog
 changelog_file="changelog.md"
 
-# Get content of the changelog file to append text at the top
-changelog_content=$(cat "$changelog_file")
-
-> "changelog_file"
-
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Get the commit history using 'git log' command
@@ -32,27 +27,33 @@ while IFS= read -r line; do
 
     # Check if the comment starts with a specific keyword and add it to the corresponding section
     case $comment in
-        "(added)"*) added+="\n- ${comment#*(added)} ($commit_hash)" ;;
-        "(changed)"*) changed+="\n- ${comment#*(changed)} ($commit_hash)" ;;
-        "(deprecated)"*) deprecated+="\n- ${comment#*(deprecated)} ($commit_hash)" ;;
-        "(removed)"*) removed+="\n- ${comment#*(removed)} ($commit_hash)" ;;
-        "(fixed)"*) fixed+="\n- ${comment#*(fixed)} ($commit_hash)" ;;
-        "(security)"*) security+="\n- ${comment#*(security)} ($commit_hash)" ;;
+        "(added)"* | *add*) added+="\n- ${comment#*(added)} ($commit_hash)" ;;
+        "(changed)"* | *change* | *update*) changed+="\n- ${comment#*(changed)} ($commit_hash)" ;;
+        "(deprecated)"* | *deprecate*) deprecated+="\n- ${comment#*(deprecated)} ($commit_hash)" ;;
+        "(removed)"* | *remove*) removed+="\n- ${comment#*(removed)} ($commit_hash)" ;;
+        "(fixed)"* | *fix*) fixed+="\n- ${comment#*(fixed)} ($commit_hash)" ;;
+        "(security)"* | *secure*) security+="\n- ${comment#*(security)} ($commit_hash)" ;;
         *) uncategorized+="\n- $comment ($commit_hash)" ;;
     esac
 done <<< "$git_log"
 
-# Add the sections to the changelog file
-echo -e "## $(date +"%Y-%m-%d %H:%M:%S")\n" >> "$changelog_file"
-echo -e "### Added\n$added" >> "$changelog_file"
-echo -e "### Changed\n$changed" >> "$changelog_file"
-echo -e "### Deprecated\n$deprecated" >> "$changelog_file"
-echo -e "### Removed\n$removed" >> "$changelog_file"
-echo -e "### Fixed\n$fixed" >> "$changelog_file"
-echo -e "### Security\n$security" >> "$changelog_file"
-echo -e "### Uncategorized\n$uncategorized" >> "$changelog_file"
+# Create a temporary file
+temp_file=$(mktemp)
 
-# Append the changelog content to the changelog file
-echo -e "$changelog_content" >> "$changelog_file"
+# Add the sections to the changelog file
+echo -e "## [$(date +"%Y-%m-%d %H:%M:%S")]\n" >> "$temp_file"
+echo -e "### Added\n$added" >> "$temp_file"
+echo -e "### Changed\n$changed" >> "$temp_file"
+echo -e "### Deprecated\n$deprecated" >> "$temp_file"
+echo -e "### Removed\n$removed" >> "$temp_file"
+echo -e "### Fixed\n$fixed" >> "$temp_file"
+echo -e "### Security\n$security" >> "$temp_file"
+echo -e "### Uncategorized\n$uncategorized" >> "$temp_file"
+
+# Append the existing contents of the changelog file to the temporary file
+cat "$changelog_file" >> "$temp_file"
+
+# Overwrite the changelog file with the contents of the temporary file
+mv "$temp_file" "$changelog_file"
 
 echo "Changelog updated successfully."
