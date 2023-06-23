@@ -1,12 +1,14 @@
 #!/bin/bash
 
+echo -e "Processing changelog..."
+
 # Define the output file for the changelog
-changelog_file="changelog.md"
+changelog_file="../../../changelog.md"
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Get the commit history using 'git log' command
-git_log=$(git log "origin/$current_branch" "$current_branch" --pretty=format:"%h %s")
+git_log=$(git log "origin/$current_branch..$current_branch" --pretty=format:"%h %s")
 
 # Initialize variables for changelog sections
 added=""
@@ -22,8 +24,6 @@ while IFS= read -r line; do
     # Extract commit hash and comment
     commit_hash=$(echo "$line" | awk '{print $1}')
     comment=$(echo "$line" | cut -d " " -f2-)
-
-    echo "$comment"
 
     # Check if the comment starts with a specific keyword and add it to the corresponding section
     case $comment in
@@ -46,7 +46,7 @@ append_section() {
     local section_content="$2"
 
     if [[ -n "$section_content" ]]; then
-        echo -e "### $section_name\n$section_content" >> "$temp_file"
+        echo -e "### $section_name\n$section_content\n" >> "$temp_file"
     fi
 }
 
@@ -68,3 +68,5 @@ cat "$changelog_file" >> "$temp_file"
 mv "$temp_file" "$changelog_file"
 
 echo "Changelog updated successfully."
+
+exit 0

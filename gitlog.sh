@@ -1,12 +1,14 @@
 #!/bin/bash
 
+echo -e "Processing gitlog..."
+
 # Define the output file for the gitlog
-gitlog_file="gitlog.md"
+gitlog_file="../../../gitlog.md"
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Get the commit history using 'git log' command
-git_log=$(git log "origin/$current_branch" "$current_branch" --pretty=format:"%h %aN %ae %ai")
+git_log=$(git log "origin/$current_branch..$current_branch" --pretty=format:"%h %aN %ae %ai")
 
 # Create a temporary file
 temp_file=$(mktemp)
@@ -68,4 +70,6 @@ cat "$gitlog_file" >> "$temp_file"
 # Overwrite the gitlog file with the contents of the temporary file
 mv "$temp_file" "$gitlog_file"
 
-echo "gitlog generated successfully: $gitlog_file"
+echo "Gitlog generated successfully!"
+
+exit 0
