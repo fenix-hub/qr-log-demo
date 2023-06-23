@@ -50,8 +50,8 @@ append_section() {
     fi
 }
 
-# Add the sections to the changelog file
-echo -e "# [$(date +"%Y-%m-%d %H:%M:%S")]\n" >> "$temp_file"
+# Add date time and git tag (if present) to the temporary file
+echo -e "# [$(git describe --tags --abbrev=0)] - $(date +"%Y-%m-%d %H:%M:%S")\n" >> "$temp_file"
 # Append sections to the temporary file
 append_section "Added" "$added"
 append_section "Changed" "$changed"

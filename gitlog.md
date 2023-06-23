@@ -1,3 +1,13 @@
+## [5c6b98f] - 2023-06-24 00:47:44 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) gitlog and changelog scripts  
+
+- [/] [changelog.md](changelog.md) (+6 -0)
+- [/] [changelog.sh](changelog.sh) (+7 -5)
+- [/] [gitlog.md](gitlog.md) (+8 -0)
+- [/] [gitlog.sh](gitlog.sh) (+7 -3)
+
 ## [6c12b9e] - 2023-06-24 00:41:39 
 *Author*: fenix-hub<n.santilio97@gmail.com>  
 *Refs*:  (HEAD -> main)  

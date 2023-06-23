@@ -1,3 +1,9 @@
+# [2023-06-24 00:47:49]
+
+### Changed
+
+-  gitlog and changelog scripts (5c6b98f)
+
 # [2023-06-24 00:45:25]
 
 ### Changed
