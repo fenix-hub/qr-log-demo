@@ -67,6 +67,6 @@ cat "$changelog_file" >> "$temp_file"
 # Overwrite the changelog file with the contents of the temporary file
 mv "$temp_file" "$changelog_file"
 
-echo "Changelog updated successfully."
+echo "Changelog updated successfully!"
 
 exit 0
