@@ -43,6 +43,7 @@ while IFS= read -r line; do
 done <<< "$git_log"
 
 # Add the sections to the changelog file
+echo -e "## $(date +"%Y-%m-%d %H:%M:%S")\n" >> "$changelog_file"
 echo -e "### Added\n$added" >> "$changelog_file"
 echo -e "### Changed\n$changed" >> "$changelog_file"
 echo -e "### Deprecated\n$deprecated" >> "$changelog_file"
