@@ -40,15 +40,26 @@ done <<< "$git_log"
 # Create a temporary file
 temp_file=$(mktemp)
 
+# Function to append section to the temporary file
+append_section() {
+    local section_name="$1"
+    local section_content="$2"
+
+    if [[ -n "$section_content" ]]; then
+        echo -e "### $section_name\n$section_content" >> "$temp_file"
+    fi
+}
+
 # Add the sections to the changelog file
-echo -e "## [$(date +"%Y-%m-%d %H:%M:%S")]\n" >> "$temp_file"
-echo -e "### Added\n$added" >> "$temp_file"
-echo -e "### Changed\n$changed" >> "$temp_file"
-echo -e "### Deprecated\n$deprecated" >> "$temp_file"
-echo -e "### Removed\n$removed" >> "$temp_file"
-echo -e "### Fixed\n$fixed" >> "$temp_file"
-echo -e "### Security\n$security" >> "$temp_file"
-echo -e "### Uncategorized\n$uncategorized" >> "$temp_file"
+echo -e "# [$(date +"%Y-%m-%d %H:%M:%S")]\n" >> "$temp_file"
+# Append sections to the temporary file
+append_section "Added" "$added"
+append_section "Changed" "$changed"
+append_section "Deprecated" "$deprecated"
+append_section "Removed" "$removed"
+append_section "Fixed" "$fixed"
+append_section "Security" "$security"
+append_section "Uncategorized" "$uncategorized"
 
 # Append the existing contents of the changelog file to the temporary file
 cat "$changelog_file" >> "$temp_file"
