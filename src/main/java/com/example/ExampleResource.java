@@ -23,33 +23,10 @@ public class ExampleResource {
     Service service;
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/hello")
-    public String hello() {
-        return "Hello from RESTEasy Reactive";
-    }
-
-    @GET
-    @Produces({"image/png", "image/jpeg", "image/gif"})
-    @Path("/qr")
-    public byte[] getTokenQR() {
-        return service.getTokenQR();
-    }
-
-    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/qr3")
+    @Path("/qr")
     public Map<String, String> getTokenQR3() throws Exception {
         return service.getData();
-    }
-
-    @GET
-    @Produces("image/png")
-    @Path("/qr2")
-    public Uni<byte[]> getTokenQR2(
-            @QueryParam("token") String token
-    ) {
-        return Uni.createFrom().item(service.getQR(token));
     }
 
     @GET

@@ -34,10 +34,18 @@ Message: Initial commit
 - [/] [src/main/java/com/example/Main.java](src/main/java/com/example/Main.java) (/13)
 - [/] [src/main/resources/META-INF/resources/index.html](src/main/resources/META-INF/resources/index.html) (/367)
 - [/] [src/main/resources/META-INF/resources/qr-login.html](src/main/resources/META-INF/resources/qr-login.html) (/114)
-- [-] [.mvn/wrapper/MavenWrapperDownloader.java] (.mvn/wrapper/MavenWrapperDownloader.java)
-- [-] [README.md] (README.md)
-- [-] [src/main/docker/Dockerfile.jvm] (src/main/docker/Dockerfile.jvm)
-- [-] [src/main/docker/Dockerfile.legacy-jar] (src/main/docker/Dockerfile.legacy-jar)
-- [-] [src/main/docker/Dockerfile.native] (src/main/docker/Dockerfile.native)
-- [-] [src/main/docker/Dockerfile.native-micro] (src/main/docker/Dockerfile.native-micro)
+- [-] [.mvn/wrapper/MavenWrapperDownloader.java](.mvn/wrapper/MavenWrapperDownloader.java)
+- [-] [README.md](README.md)
+- [-] [src/main/docker/Dockerfile.jvm](src/main/docker/Dockerfile.jvm)
+- [-] [src/main/docker/Dockerfile.legacy-jar](src/main/docker/Dockerfile.legacy-jar)
+- [-] [src/main/docker/Dockerfile.native](src/main/docker/Dockerfile.native)
+- [-] [src/main/docker/Dockerfile.native-micro](src/main/docker/Dockerfile.native-micro)
+
+Commit: c60fa3fc729b4b997bec660b60a39aa9896fa296
+Author: fenix-hub
+Message: add changelog script
+
+- [+] [CHANGELOG](CHANGELOG) (+0)
+- [+] [changelog.md](changelog.md) (+43)
+- [+] [changelog.sh](changelog.sh) (+62)
 
