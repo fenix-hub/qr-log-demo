@@ -3,60 +3,50 @@
 # Define the output file for the changelog
 changelog_file="changelog.md"
 
-# Start with a clean changelog file
-> "$changelog_file"
+# Get content of the changelog file to append text at the top
+changelog_content=$(cat "$changelog_file")
 
-# Legend for change types
-echo "Legend:" >> "$changelog_file"
-echo "- Added files: [+]" >> "$changelog_file"
-echo "- Changed files: [/]" >> "$changelog_file"
-echo "- Deleted files: [-]" >> "$changelog_file"
-echo "" >> "$changelog_file"
+> "changelog_file"
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Get the commit history using 'git log' command
-commits=$(git log --pretty=format:"%H" --reverse)
+git_log=$(git log "origin/$current_branch" "$current_branch" --pretty=format:"%h %aN %ae %ai")
 
-# Iterate over each commit
-for commit in $commits; do
-    # Get the commit message and author using 'git log' command
-    commit_message=$(git log --format="%s" -n 1 "$commit")
-    commit_author=$(git log --format="%an" -n 1 "$commit")
+# Initialize variables for changelog sections
+added=""
+changed=""
+deprecated=""
+removed=""
+fixed=""
+security=""
 
-    # Get the summary of changes for the commit using 'git show' command
-    added_files=$(git show --stat --oneline --name-status "$commit" | grep "A" | awk '{print $2}')
-    modified_files=$(git show --stat --oneline --name-status "$commit" | grep "M" | awk '{print $2}')
-    deleted_files=$(git show --stat --oneline --name-status "$commit" | grep "D" | awk '{print $2}')
+# Loop through each line of the log
+while IFS= read -r line; do
+    # Extract commit hash and comment
+    commit_hash=$(echo "$line" | awk '{print $1}')
+    comment=$(echo "$line" | cut -d " " -f2-)
 
-    # Append the commit information and summary to the changelog file
-    echo "Commit: $commit" >> "$changelog_file"
-    echo "Author: $commit_author" >> "$changelog_file"
-    echo "Message: $commit_message" >> "$changelog_file"
-    echo "" >> "$changelog_file"
+    # Check if the comment starts with a specific keyword and add it to the corresponding section
+    case $comment in
+        (added*) added+="\n- ${comment#*(added)} ($commit_hash)" ;;
+        (changed*) changed+="\n- ${comment#*(changed)} ($commit_hash)" ;;
+        (deprecated*) deprecated+="\n- ${comment#*(deprecated)} ($commit_hash)" ;;
+        (removed*) removed+="\n- ${comment#*(removed)} ($commit_hash)" ;;
+        (fixed*) fixed+="\n- ${comment#*(fixed)} ($commit_hash)" ;;
+        (security*) security+="\n- ${comment#*(security)} ($commit_hash)" ;;
+    esac
+done <<< "$changelog_file"
 
-    # Process added files
-    if [ -n "$added_files" ]; then
-        while IFS= read -r file; do
-            lines=$(git show --numstat --oneline "$commit" -- "$file" | tail -1 | awk '{print $1}')
-            echo "- [+] [$file]($file) (+$lines)" >> "$changelog_file"
-        done <<< "$added_files"
-    fi
+# Append the changelog content to the changelog file
+echo -e "$changelog_content" >> "$changelog_file"
 
-    # Process modified files
-    if [ -n "$modified_files" ]; then
-        while IFS= read -r file; do
-            lines=$(git show --numstat --oneline "$commit" -- "$file" | tail -1 | awk '{print $1}')
-            echo "- [/] [$file]($file) (/$lines)" >> "$changelog_file"
-        done <<< "$modified_files"
-    fi
+# Add the sections to the changelog file
+echo -e "### Added\n$added" >> "$changelog_file"
+echo -e "### Changed\n$changed" >> "$changelog_file"
+echo -e "### Deprecated\n$deprecated" >> "$changelog_file"
+echo -e "### Removed\n$removed" >> "$changelog_file"
+echo -e "### Fixed\n$fixed" >> "$changelog_file"
+echo -e "### Security\n$security" >> "$changelog_file"
 
-    # Process deleted files
-    if [ -n "$deleted_files" ]; then
-        while IFS= read -r file; do
-            echo "- [-] [$file]($file)" >> "$changelog_file"
-        done <<< "$deleted_files"
-    fi
-
-    echo "" >> "$changelog_file"
-done
-
-echo "Changelog generated successfully: $changelog_file"
+echo "Changelog updated successfully."
