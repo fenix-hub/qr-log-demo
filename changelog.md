@@ -1,3 +1,46 @@
+# [v1.0.0] - 2023-06-24 11:52:40
+
+### Uncategorized
+
+-  ()
+
+# [v1.0.0] - 2023-06-24 11:50:45
+
+### Uncategorized
+
+-  ()
+
+# [v1.0.0] - 2023-06-24 11:39:59
+
+### Uncategorized
+
+-  ()
+
+# [v1.0.0] - 2023-06-24 11:32:02
+
+### Added
+
+-  introduce websocket client for development (65a3648)
+
+### Changed
+
+-  renamed endpoint methods (729bf87)
+-  renamed StartWebSocket.java to ChannelSocket.java (449662d)
+-  cleaned up souts (e10e28f)
+-  update call api (f908e04)
+-  rename token to channel (480ded7)
+-  changelog.sh final message (5fc8449)
+
+### Fixed
+
+-  receive only the channel name (9afc9a7)
+
+# [v1.0.0] - 2023-06-24 00:51:47
+
+### Added
+
+- (changed) added tag (1aabdeb)
+
 # [2023-06-24 00:47:49]
 
 ### Changed
