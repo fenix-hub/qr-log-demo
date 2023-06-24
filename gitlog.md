@@ -1,3 +1,53 @@
+## [9e6b988] - 2023-06-24 12:31:11 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+11 -0)
+
+## [59c7bc8] - 2023-06-24 12:23:11 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated gitlog.md  
+
+- [/] [gitlog.md](gitlog.md) (+36 -0)
+
+## [c6d50cf] - 2023-06-24 12:23:07 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+9 -0)
+
+## [45b7e5f] - 2023-06-24 12:22:52 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (tag: v1.0.1)  
+> (changed) automation scripts  
+
+- [/] [changelog.sh](changelog.sh) (+25 -4)
+- [/] [gitlog.sh](gitlog.sh) (+11 -3)
+
+## [da5e1e6] - 2023-06-24 11:55:52 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated gitlog.md  
+
+- [/] [gitlog.md](gitlog.md) (+102 -0)
+
+## [0e49b60] - 2023-06-24 11:55:50 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+6 -0)
+
+## [75f8f24] - 2023-06-24 11:52:40 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+43 -0)
+
 ## [c6d50cf] - 2023-06-24 12:23:07 
 *Author*: fenix-hub<n.santilio97@gmail.com>  
 *Refs*:  (HEAD -> main)  
