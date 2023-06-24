@@ -3,7 +3,8 @@
 echo -e "Processing gitlog..."
 
 # Define the output file for the gitlog
-gitlog_file="../../../gitlog.md"
+gitlog_path="../../../"
+gitlog_file="gitlog.md"
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
@@ -65,11 +66,18 @@ while read commit_line; do
 done <<< "$git_log"
 
 # Append the existing contents of the gitlog file to the temporary file
-cat "$gitlog_file" >> "$temp_file"
+cat "$gitlog_path$gitlog_file" >> "$temp_file"
 
 # Overwrite the gitlog file with the contents of the temporary file
-mv "$temp_file" "$gitlog_file"
+mv "$temp_file" "$gitlog_path$gitlog_file"
 
 echo "Gitlog generated successfully!"
+
+echo -e "Committing..."
+
+# shellcheck disable=SC2164
+cd $gitlog_path
+git add $gitlog_file
+git commit -m "(changed) updated gitlog.md"
 
 exit 0
