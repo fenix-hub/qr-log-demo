@@ -56,7 +56,7 @@
       loader.style.display = 'block';
 
       // Fetch QR code image and WebSocket URL from the server
-      fetch('http://localhost:8080/qr3')
+      fetch('http://localhost:8080/qr')
               .then(response => response.json())
               .then(data => {
                 const qrCodeImage = data.qr; // Assuming the JSON response has a "qr" field containing the Base64 QR code image
