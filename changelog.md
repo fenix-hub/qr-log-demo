@@ -1,3 +1,9 @@
+# [v1.0.0] - 2023-06-24 11:55:50
+
+### Changed
+
+-  updated changelog.md (75f8f24)
+
 # [v1.0.0] - 2023-06-24 11:52:40
 
 ### Uncategorized
