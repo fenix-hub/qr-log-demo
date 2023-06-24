@@ -1,6 +1,5 @@
 package com.example;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
@@ -18,16 +17,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @ApplicationScoped
 public class Service {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Queue<Token> tokenQueue = new ConcurrentLinkedQueue<Token>();
-
-    public record Token(String token) {
-    }
-
-    private Random random = new Random();
+    private final Queue<String> channelQueue = new ConcurrentLinkedQueue<String>();
+    private final Random random = new Random();
 
     private BufferedImage generateQRCodeImage(String barcodeText) throws Exception {
-        System.out.println("generateQRCodeImage> " + barcodeText);
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix =
                 barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
@@ -52,53 +45,31 @@ public class Service {
         );
     }
 
-    public byte[] getQR(String token) {
-        try {
-            return getQRBytes(generateQRCodeImage(token));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public byte[] getTokenQR() {
-        String token = getTokenString();
-        Token tokenObj = new Token(token);
-        tokenQueue.add(tokenObj);
-        try {
-            return getQRBytes(generateQRCodeImage(objectMapper.writeValueAsString(tokenObj)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String getTokenString() {
-        byte[] bytes = new byte[32];
+    private String getRandomString(int byteSize) {
+        byte[] bytes = new byte[byteSize];
         random.nextBytes(bytes);
         return Base64.getUrlEncoder().encodeToString(bytes);
     }
 
-    private Token newToken() {
-        String token = getTokenString();
-        Token tokenObj = new Token(token);
-        tokenQueue.add(tokenObj);
-        return tokenObj;
+    private String getNewChannel() {
+        String channel = getRandomString(32);
+        channelQueue.add(channel);
+        return channel;
     }
 
-    public Multi<Token> getTokens() {
-        return Multi.createFrom().items(tokenQueue.stream());
+    public Multi<String> getChannels() {
+        return Multi.createFrom().items(channelQueue.stream());
     }
-
 
     public Map<String, String> getData() throws Exception {
-        Token token = newToken();
+        String channel = getNewChannel();
         return Map.of(
-                "qr", getQRString(generateQRCodeImage(token.token)),
-                "channel", "ws://localhost:8080/" + token.token
+                "qr", getQRString(generateQRCodeImage(channel)),
+                "channel", channel
         );
     }
 
-    public void removeToken(Token token) {
-        tokenQueue.remove(token);
+    public void removeChannel(String channel) {
+        channelQueue.remove(channel);
     }
 }
