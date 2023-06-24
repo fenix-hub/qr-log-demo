@@ -1,3 +1,105 @@
+## [0e49b60] - 2023-06-24 11:55:50 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+6 -0)
+
+## [75f8f24] - 2023-06-24 11:52:40 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+43 -0)
+
+## [75f8f24] - 2023-06-24 11:52:40 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+43 -0)
+
+## [] -   
+*Author*: <>  
+*Refs*:   
+>   
+
+
+## [] -   
+*Author*: <>  
+*Refs*:   
+>   
+
+
+## [729bf87] - 2023-06-24 11:31:07 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) renamed endpoint methods  
+
+- [/] [src/main/java/com/example/ExampleResource.java](src/main/java/com/example/ExampleResource.java) (+3 -10)
+
+## [449662d] - 2023-06-24 11:30:49 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) renamed StartWebSocket.java to ChannelSocket.java  
+
+- [+] [src/main/java/com/example/ChannelSocket.java](src/main/java/com/example/ChannelSocket.java) (+113)
+- [-] [src/main/java/com/example/StartWebSocket.java](src/main/java/com/example/StartWebSocket.java)
+
+## [e10e28f] - 2023-06-24 11:30:28 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) cleaned up souts  
+
+- [/] [src/main/java/com/example/Main.java](src/main/java/com/example/Main.java) (+0 -1)
+
+## [65a3648] - 2023-06-24 11:28:26 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (added) introduce websocket client for development  
+
+- [+] [src/main/resources/META-INF/resources/websocket-client.html](src/main/resources/META-INF/resources/websocket-client.html) (+65)
+- [/] [src/main/resources/META-INF/resources/websocket-client.html](src/main/resources/META-INF/resources/websocket-client.html) (+65 -0)
+
+## [9afc9a7] - 2023-06-24 11:28:07 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (fixed) receive only the channel name  
+
+- [+] [src/main/resources/META-INF/resources/qr-login.html](src/main/resources/META-INF/resources/qr-login.html) (+2)
+- [/] [src/main/resources/META-INF/resources/qr-login.html](src/main/resources/META-INF/resources/qr-login.html) (+2 -2)
+
+## [f908e04] - 2023-06-24 11:27:47 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) update call api  
+
+- [+] [src/main/resources/META-INF/resources/qr-login.html](src/main/resources/META-INF/resources/qr-login.html) (+1)
+- [/] [src/main/resources/META-INF/resources/qr-login.html](src/main/resources/META-INF/resources/qr-login.html) (+1 -1)
+
+## [480ded7] - 2023-06-24 11:27:03 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) rename token to channel  
+
+- [/] [src/main/java/com/example/Service.java](src/main/java/com/example/Service.java) (+15 -44)
+
+## [5fc8449] - 2023-06-24 00:54:43 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) changelog.sh final message  
+
+- [/] [changelog.sh](changelog.sh) (+1 -1)
+
+## [1aabdeb] - 2023-06-24 00:51:41 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) added tag  
+
+- [/] [changelog.md](changelog.md) (+6 -0)
+- [/] [changelog.sh](changelog.sh) (+2 -2)
+- [/] [gitlog.md](gitlog.md) (+10 -0)
+
 ## [5c6b98f] - 2023-06-24 00:47:44 
 *Author*: fenix-hub<n.santilio97@gmail.com>  
 *Refs*:  (HEAD -> main)  
