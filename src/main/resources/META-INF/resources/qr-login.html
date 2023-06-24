@@ -60,7 +60,7 @@
               .then(response => response.json())
               .then(data => {
                 const qrCodeImage = data.qr; // Assuming the JSON response has a "qr" field containing the Base64 QR code image
-                const webSocketUrl = data.channel; // Assuming the JSON response has a "channel" field containing the WebSocket URL
+                const websocketChannel = data.channel; // Assuming the JSON response has a "channel" field containing the WebSocket URL
 
                 // Set the Base64 string as the source of the image element
                 qrImage.src = `data:image/png;base64, ${qrCodeImage}`;
@@ -70,7 +70,7 @@
                 qrImage.style.display = 'block';
 
                 // Connect to WebSocket using the extracted URL
-                const socket = new WebSocket(webSocketUrl);
+                const socket = new WebSocket(`ws://localhost:8080/${websocketChannel}`);
 
                 // WebSocket event handlers
                 socket.addEventListener('open', function(event) {
