@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Example</title>
+</head>
+<body>
+<h1>WebSocket Example</h1>
+
+<input type="text" id="urlInput" placeholder="Enter WebSocket URL">
+<button onclick="connectWebSocket()">Connect</button>
+
+<div id="messages">
+    <input type="text" id="messageInput" placeholder="Enter a message">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    var socket;
+
+    function connectWebSocket() {
+        var url = document.getElementById("urlInput").value;
+
+        if (!url) {
+            alert("Please enter a WebSocket URL.");
+            return;
+        }
+
+        socket = new WebSocket(url);
+
+        socket.onopen = function(event) {
+            console.log("Connected to WebSocket");
+        };
+
+        socket.onmessage = function(event) {
+            var message = event.data;
+            console.log("Received message: " + message);
+            // Handle the received message as needed
+        };
+
+        socket.onclose = function(event) {
+            console.log("WebSocket connection closed");
+        };
+    }
+
+    function sendMessage() {
+        var messageInput = document.getElementById("messageInput");
+        var message = messageInput.value;
+
+        if (!message) {
+            alert("Please enter a message.");
+            return;
+        }
+
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(message);
+            console.log("Sent message: " + message);
+        } else {
+            alert("WebSocket connection is not open.");
+        }
+
+        messageInput.value = ""; // Clear the input field
+    }
+</script>
+</body>
+</html>
