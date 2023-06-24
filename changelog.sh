@@ -14,7 +14,10 @@ latest_remote_tag=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:ref
 # if current_tag and latest_remote_tag are equals, exit with 1
 if [[ "$current_tag" == "$latest_remote_tag" ]]; then
    echo "Latest tag ($current_tag) is already pushed to remote. Maybe you forgot to increment the version?"
-   exit 1
+   read -p '(y/n): ' answer
+   if [[ "$answer" == "y" ]]; then
+	exit 1	
+   fi
 fi
 
 # Get current branch name
@@ -65,7 +68,7 @@ append_section() {
 }
 
 # Add date time and git tag (if present) to the temporary file
-echo -e "# [] - $(date +"%Y-%m-%d %H:%M:%S")\n" >> "$temp_file"
+echo -e "# [$current_tag] - $(date +"%Y-%m-%d %H:%M:%S")\n" >> "$temp_file"
 
 # Append sections to the temporary file
 append_section "Added" "$added"
