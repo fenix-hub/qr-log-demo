@@ -1,3 +1,11 @@
+# [v1.0.1] - 2023-06-24 12:35:17
+
+### Changed
+
+-  changelog.sh checks (5f3ac15)
+-  updated gitlog.md (e3782ee)
+-  updated changelog.md (9e6b988)
+
 # [] - 2023-06-24 12:31:11
 
 ### Changed
