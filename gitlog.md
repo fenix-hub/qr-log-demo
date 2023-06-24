@@ -1,3 +1,31 @@
+## [89cbe29] - 2023-06-24 12:35:18 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:  (HEAD -> main)  
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+8 -0)
+
+## [5f3ac15] - 2023-06-24 12:35:10 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) changelog.sh checks  
+
+- [/] [changelog.sh](changelog.sh) (+5 -2)
+
+## [e3782ee] - 2023-06-24 12:31:17 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated gitlog.md  
+
+- [/] [gitlog.md](gitlog.md) (+50 -0)
+
+## [9e6b988] - 2023-06-24 12:31:11 
+*Author*: fenix-hub<n.santilio97@gmail.com>  
+*Refs*:   
+> (changed) updated changelog.md  
+
+- [/] [changelog.md](changelog.md) (+11 -0)
+
 ## [9e6b988] - 2023-06-24 12:31:11 
 *Author*: fenix-hub<n.santilio97@gmail.com>  
 *Refs*:  (HEAD -> main)  
