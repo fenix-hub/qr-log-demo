@@ -1,3 +1,9 @@
+# [v1.0.1] - 2023-06-25 12:10:08
+
+### Changed
+
+-  updated changelog.md (be28609)
+
 # [v1.0.1] - 2023-06-25 12:09:37
 
 ### Uncategorized
