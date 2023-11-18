@@ -1,3 +1,9 @@
+# [list] - 2023-11-18 17:53:03
+
+### Changed
+
+- (update) dockerignore (1c9607c)
+
 # [list] - 2023-11-18 17:50:54
 
 ### Changed
