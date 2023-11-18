@@ -1,3 +1,10 @@
+# [list] - 2023-11-18 17:46:40
+
+### Changed
+
+- (update) dockerignore (019b6bc)
+-  updated changelog.md (f74d067)
+
 # [list] - 2023-11-18 17:46:05
 
 ### Changed
