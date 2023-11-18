@@ -1,3 +1,9 @@
+# [list] - 2023-11-18 17:13:15
+
+### Changed
+
+- (update) dockerignore (76ecab3)
+
 # [list] - 2023-11-18 17:04:19
 
 ### Added
