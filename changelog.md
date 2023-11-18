@@ -1,3 +1,13 @@
+# [list] - 2023-11-18 17:04:19
+
+### Added
+
+- (add) digital ocean (fa47584)
+
+### Changed
+
+-  updated changelog.md (c84c7b0)
+
 # [list] - 2023-11-18 16:59:08
 
 ### Added
