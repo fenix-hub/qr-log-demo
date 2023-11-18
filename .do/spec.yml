@@ -6,3 +6,4 @@ services:
       deploy_on_push: true
       repo: fenix-hub/qr-log-demo
     name: qr-log
+    http_port: 8080
