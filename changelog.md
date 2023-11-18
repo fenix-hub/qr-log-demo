@@ -1,3 +1,10 @@
+# [list] - 2023-11-18 18:04:41
+
+### Changed
+
+- (update) dockerignore (c900ac7)
+-  updated changelog.md (5e58d8b)
+
 # [list] - 2023-11-18 17:56:14
 
 ### Changed
