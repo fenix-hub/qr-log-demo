@@ -1,6 +1,6 @@
 name: qr-log-dockerfile
 services:
-  - dockerfile_path: src/main/docker/Dockerfile.multi
+  - dockerfile_path: Dockerfile.multi
     github:
       branch: main
       deploy_on_push: true
