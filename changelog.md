@@ -1,3 +1,17 @@
+# [list] - 2023-11-18 16:59:08
+
+### Added
+
+- (add) digital ocean (187999b)
+
+### Changed
+
+-  updated changelog.md (c4b6afc)
+
+### Uncategorized
+
+- Merge remote-tracking branch 'origin/main' (69724f2)
+
 # [list] - 2023-11-18 16:57:59
 
 ### Added
