@@ -1,0 +1,8 @@
+name: qr-log-dockerfile
+services:
+  - dockerfile_path: src/main/docker/Dockerfile.multi
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: fenix-hub/qr-log-demo
+    name: qr-log

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/pre-push.d"
+
+for hook in *; do
+	exec "C:\Program Files\Git\git-bash.exe" $(pwd)/$hook
+    RESULT=$?
+    if [ $RESULT != 0 ]; then
+        echo "pre-push.d/$hook returned non-zero: $RESULT, abort push"
+        exit $RESULT
+    fi
+done
+
+exit 0
