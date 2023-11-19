@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Path("")
@@ -16,10 +17,23 @@ public class ExampleResource {
     Service service;
 
     @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Hello, world!";
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/qr")
     public Map<String, String> getQR() throws Exception {
         return service.getData();
+    }
+
+    @GET
+    @Produces("image/png")
+    @Path("/qr.png")
+    public byte[] getQRBytes() throws Exception {
+        return service.getData().get("qr").getBytes(StandardCharsets.UTF_8);
     }
 
     @GET
