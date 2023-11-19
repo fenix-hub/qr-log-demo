@@ -16,6 +16,7 @@ public class ExampleResource {
     @Inject
     Service service;
 
+    @Path("/hello")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
