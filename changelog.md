@@ -1,3 +1,10 @@
+# [list] - 2023-11-21 23:35:08
+
+### Changed
+
+- (update) hello endpoint (b11bde0)
+-  updated changelog.md (230d2e5)
+
 # [list] - 2023-11-19 18:33:36
 
 ### Changed
