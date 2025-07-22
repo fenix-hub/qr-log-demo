@@ -1,14 +1,17 @@
 package com.example;
 
+import java.net.http.HttpHeaders;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import jakarta.ws.rs.core.UriInfo;
 
 @Path("")
 public class ExampleResource {
@@ -26,15 +29,15 @@ public class ExampleResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/qr")
-    public Map<String, String> getQR() throws Exception {
-        return service.getData();
+    public Map<String, String> getQR(@Context UriInfo uriInfo, @Context HttpHeaders httpHeaders) throws Exception {
+        return service.getData(uriInfo.getRequestUri().toString());
     }
 
     @GET
     @Produces("image/png")
     @Path("/qr.png")
-    public byte[] getQRBytes() throws Exception {
-        return service.getData().get("qr").getBytes(StandardCharsets.UTF_8);
+    public byte[] getQRBytes(@Context UriInfo uriInfo) throws Exception {
+        return service.getData(uriInfo.getRequestUri().toString()).get("qr").getBytes(StandardCharsets.UTF_8);
     }
 
     @GET

@@ -71,10 +71,14 @@ public class Service {
         return Multi.createFrom().items(channelQueue.stream());
     }
 
-    public Map<String, String> getData() throws Exception {
+    public Map<String, String> getData(final String requestUri) throws Exception {
+        String baseUrl = requestUri.toString().replace("/qr", "");
         String channel = getNewChannel();
+        String wsUrl = baseUrl.replaceFirst("^https", "wss") + "/" + channel;
+        BufferedImage qrImage = generateQRCodeImage(wsUrl);
+        String qrString = getQRString(qrImage);
         return Map.of(
-                "qr", getQRString(generateQRCodeImage(channel)),
+                "qr", qrString,
                 "channel", channel
         );
     }

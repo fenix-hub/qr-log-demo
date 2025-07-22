@@ -56,7 +56,7 @@
       loader.style.display = 'block';
 
       // Fetch QR code image and WebSocket URL from the server
-      fetch('http://localhost:8080/qr')
+      fetch('/qr')
               .then(response => response.json())
               .then(data => {
                 const qrCodeImage = data.qr; // Assuming the JSON response has a "qr" field containing the Base64 QR code image
@@ -70,7 +70,9 @@
                 qrImage.style.display = 'block';
 
                 // Connect to WebSocket using the extracted URL
-                const socket = new WebSocket(`ws://localhost:8080/${websocketChannel}`);
+                const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsHost = window.location.host;
+                const socket = new WebSocket(`${wsProtocol}//${wsHost}/${websocketChannel}`);
 
                 // WebSocket event handlers
                 socket.addEventListener('open', function(event) {
