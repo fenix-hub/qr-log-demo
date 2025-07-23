@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login - QR Login Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        #container {
+            text-align: center;
+            width: 90%;
+            max-width: 300px;
+            padding: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: none;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .success-message {
+            color: green;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .alternate-auth {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            #container {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+    <script>
+        window.addEventListener('load', function () {
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Get channel parameter from URL query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const channel = urlParams.get('channel');
+
+            // Check if token already exists in localStorage
+            const existingToken = localStorage.getItem('auth_token');
+            const existingUsername = localStorage.getItem('username');
+
+            // In caso di errore di connessione, potrebbe essere utile rimuovere il token
+            // solo se il canale è effettivamente scaduto o non valido
+            if (channel) {
+                // Verifica se il canale è valido con una richiesta al server
+                fetch(`/auth/channel/${encodeURIComponent(channel)}/validate`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Channel validation response:', data);
+                        // Se il canale non è valido, rimuovi il token e reindirizza l'utente
+                        if (data.status === 'invalid' || data.status === 'expired') {
+                            errorMessage.textContent = 'Il canale di autenticazione non è valido o è scaduto.';
+                            errorMessage.style.display = 'block';
+                            localStorage.removeItem('auth_token');
+                            localStorage.removeItem('username');
+                        }
+                    })
+                    .catch(() => {
+                        // In caso di errore nella verifica, mantieni il token
+                    });
+            }
+
+            // If channel parameter and token exist, connect to WebSocket immediately
+            if (channel && existingToken && existingUsername) {
+                // Nascondi il form di login durante il tentativo di connessione automatica
+                loginForm.style.display = 'none';
+                connectToWebSocket(channel, existingUsername, existingToken);
+            } else {
+                // Se non ci sono token o canale, mostra il form di login
+                loginForm.style.display = 'block';
+            }
+
+            // Function to connect to WebSocket and send authentication message
+            function connectToWebSocket(channel, username, token) {
+                const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsHost = window.location.host;
+                const socket = new WebSocket(`${wsProtocol}//${wsHost}/${channel}`);
+
+                // Update UI to show connecting status
+                errorMessage.style.display = 'none';
+                successMessage.textContent = 'Connecting to authentication channel...';
+                successMessage.style.display = 'block';
+
+                socket.addEventListener('open', function (event) {
+                    console.log('WebSocket connection established.');
+                    // Send the username and token to the WebSocket
+                    socket.send(`auth:${username}:${token}`);
+
+                    // Show additional information in success message
+                    successMessage.textContent = 'Connected to authentication channel.';
+                });
+
+                socket.addEventListener('message', function (event) {
+                    console.log('WebSocket message received:', event.data);
+                    try {
+                        const response = JSON.parse(event.data);
+
+                        // Controllo se è un messaggio di errore
+                        if (response.status === 'invalid_channel' ||
+                            response.status === 'expired_channel' ||
+                            response.status === 'server_error') {
+
+                            // Mostra il messaggio di errore
+                            errorMessage.style.display = 'block';
+                            successMessage.style.display = 'none';
+                            loginForm.style.display = 'block';
+                            errorMessage.textContent = response.message || 'Errore di autenticazione';
+
+                            // Pulisci il localStorage in caso di errore di canale
+                            if (response.status === 'invalid_channel' || response.status === 'expired_channel') {
+                                localStorage.removeItem('auth_token');
+                                localStorage.removeItem('username');
+                            }
+                        } else if (response.status === 'connected') {
+                            // Autenticazione riuscita
+                            successMessage.textContent = 'Autenticazione riuscita!';
+                            errorMessage.style.display = 'none';
+                            loginForm.style.display = 'none';
+                        }
+                    } catch (e) {
+                        console.error('Errore nella decodifica del messaggio JSON:', e);
+                    }
+                });
+
+                socket.addEventListener('close', function (event) {
+                    console.log('WebSocket connection closed.');
+
+                });
+
+                socket.addEventListener('error', function (event) {
+                    console.error('WebSocket error:', event);
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    loginForm.style.display = 'block';
+                    errorMessage.textContent = 'Errore di connessione al canale di autenticazione. Il canale potrebbe essere scaduto o non valido.';
+                });
+            }
+
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                // Create form data
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+
+                // Send login request
+                fetch('/auth/login', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Login failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Login successful
+                        errorMessage.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        successMessage.textContent = 'Login successful!';
+
+                        // Store token and username in localStorage
+                        localStorage.setItem('auth_token', data.token);
+                        localStorage.setItem('username', username);
+
+                        // If channel parameter exists, connect to WebSocket
+                        if (channel) {
+                            connectToWebSocket(channel, username, data.token);
+                        }
+                    })
+                    .catch(error => {
+                        // Login failed
+                        errorMessage.style.display = 'block';
+                        successMessage.style.display = 'none';
+                        errorMessage.textContent = 'Login failed. Please check your credentials.';
+                        console.error('Login error:', error);
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        <div class="alternate-auth">
+            <p>Preferisci utilizzare un QR code? <a href="/qr-login.html">Login con QR Code</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

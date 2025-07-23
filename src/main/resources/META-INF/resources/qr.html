@@ -27,7 +27,7 @@
     }
 
     #qr-code {
-      display: block;
+      display: none;
     }
 
     #connected-message {
@@ -56,7 +56,7 @@
       loader.style.display = 'block';
 
       // Fetch QR code image and WebSocket URL from the server
-      fetch('/qr')
+      fetch('/auth/qr')
               .then(response => response.json())
               .then(data => {
                 const qrCodeImage = data.qr; // Assuming the JSON response has a "qr" field containing the Base64 QR code image
@@ -81,11 +81,14 @@
 
                 socket.addEventListener('message', function(event) {
                   console.log('WebSocket message received:', event.data);
+                  // the message is in format `{"username":"username","token":"token"}`
                   const message = JSON.parse(event.data);
-                  if (message.status === 'connected') {
+                  if (message.username && message.token) {
                     const username = message.username;
+                    const token = message.token; // Assuming the message contains a "token" field
+                    console.log(`Username: ${username}, Token: ${token}`);
                     qrImage.style.display = 'none';
-                    connectedMessage.innerHTML = `Successfully connected as <span>${username}</span>`;
+                    connectedMessage.innerHTML = `Successfully connected with token: <pre>${token}</pre>`;
                     connectedMessage.style.display = 'block';
                   }
                 });
@@ -110,7 +113,8 @@
   <div id="loader"></div>
   <img id="qr-code" alt="QR Code">
   <p id="connected-message"></p>
-  <p id="error-message" style="display: none; color: red;">Error fetching QR code.</p>
+  <p id="error-message" style="display: none; color: red;">Errore nell'ottenimento del codice qr.</p>
+  <p style="margin-top: 20px;">Preferisci il login tradizionale? <a href="/login.html">Login con username e password</a></p>
 </div>
 </body>
 </html>
